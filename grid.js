@@ -23,7 +23,7 @@ chrome.storage.local.get("images", (data) => {
     scrollContainer.appendChild(scrollItem);
   });
 
-  // Infinite horizontal scroll handling
+  // Horizontal scroll handling
   let scrollLeft = 0;
 
   window.addEventListener("wheel", (event) => {

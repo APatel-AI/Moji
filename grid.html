@@ -9,7 +9,7 @@
     body {
       margin: 0;
       padding: 0;
-      overflow: hidden; /* Prevent default scrolling behavior */
+      overflow: hidden;
       font-family: 'Raleway', sans-serif;
       background-color: #111;
     }
@@ -18,17 +18,16 @@
       flex-wrap: nowrap;
       height: 100vh;
       overflow-x: hidden;
-      white-space: nowrap;
       align-items: center;
       position: relative;
     }
     .scroll-item {
       flex: 0 0 auto;
-      width: 300px;
-      height: 300px;
-      margin: 10px;
+      width: calc(100vw / 10); /* Fit 10 images per view horizontally */
+      height: calc(100vh / 4); /* Fit 4 rows of images vertically */
+      margin: 2px;
       overflow: hidden;
-      border-radius: 15px;
+      border-radius: 8px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
       background: #222;
       transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
@@ -40,11 +39,8 @@
       transition: transform 0.5s ease-in-out;
     }
     .scroll-item:hover {
-      transform: scale(1.05);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
-    }
-    .scroll-item:hover img {
       transform: scale(1.1);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
     }
   </style>
 </head>
