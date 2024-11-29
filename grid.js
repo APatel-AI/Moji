@@ -14,6 +14,7 @@ chrome.storage.local.get("images", (data) => {
 
   // Populate the scroll container with images
   images.forEach((src) => {
+    console.log(`Loading image ${index + 1}:`, src); 
     const scrollItem = document.createElement("div");
     scrollItem.className = "scroll-item";
 
@@ -26,16 +27,21 @@ chrome.storage.local.get("images", (data) => {
   // Horizontal scroll handling
   let scrollLeft = 0;
 
-  window.addEventListener("wheel", (event) => {
-    event.preventDefault(); // Prevent default vertical scroll
-    scrollLeft += event.deltaY * 1.5; // Adjust the multiplier for scroll speed
-    scrollContainer.scrollLeft = scrollLeft;
-
-    // Infinite effect: Wrap around scrolling
-    if (scrollContainer.scrollLeft >= scrollContainer.scrollWidth - window.innerWidth) {
-      scrollLeft = 0;
-    } else if (scrollContainer.scrollLeft <= 0) {
-      scrollLeft = scrollContainer.scrollWidth - window.innerWidth;
-    }
-  });
+  window.addEventListener(
+    "wheel",
+    (event) => {
+      event.preventDefault(); // Prevent vertical scrolling
+      scrollLeft += event.deltaY * 1.5; // Adjust the multiplier for scroll speed
+      scrollContainer.scrollLeft = scrollLeft;
+  
+      // Infinite effect: Wrap around scrolling
+      if (scrollContainer.scrollLeft >= scrollContainer.scrollWidth - window.innerWidth) {
+        scrollLeft = 0;
+      } else if (scrollContainer.scrollLeft <= 0) {
+        scrollLeft = scrollContainer.scrollWidth - window.innerWidth;
+      }
+    },
+    { passive: false } // Explicitly mark the event listener as non-passive
+  );
+  
 });
