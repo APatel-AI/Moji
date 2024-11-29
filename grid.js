@@ -1,6 +1,6 @@
 chrome.storage.local.get("images", (data) => {
   const images = data.images || [];
-  const gridContainer = document.getElementById("gridContainer");
+  const scrollContainer = document.getElementById("scrollContainer");
 
   if (images.length === 0) {
     const emptyMessage = document.createElement("div");
@@ -8,27 +8,34 @@ chrome.storage.local.get("images", (data) => {
     emptyMessage.style.textAlign = "center";
     emptyMessage.style.fontSize = "20px";
     emptyMessage.textContent = "No images uploaded yet. Please add some from the popup.";
-    gridContainer.appendChild(emptyMessage);
+    document.body.appendChild(emptyMessage);
     return;
   }
 
-  images.forEach((src, index) => {
-    const gridItem = document.createElement("div");
-    gridItem.className = "grid-item";
+  // Populate the scroll container with images
+  images.forEach((src) => {
+    const scrollItem = document.createElement("div");
+    scrollItem.className = "scroll-item";
 
     const img = document.createElement("img");
     img.src = src;
-    img.alt = `Image ${index + 1}`;
+    scrollItem.appendChild(img);
+    scrollContainer.appendChild(scrollItem);
+  });
 
-    const overlay = document.createElement("div");
-    overlay.className = "overlay";
-    overlay.textContent = `Image ${index + 1}`;
+  // Infinite horizontal scroll handling
+  let scrollLeft = 0;
 
-    gridItem.appendChild(img);
-    gridItem.appendChild(overlay);
-    gridContainer.appendChild(gridItem);
+  window.addEventListener("wheel", (event) => {
+    event.preventDefault(); // Prevent default vertical scroll
+    scrollLeft += event.deltaY * 1.5; // Adjust the multiplier for scroll speed
+    scrollContainer.scrollLeft = scrollLeft;
 
-    // Delay for staggered animation effect
-    gridItem.style.animationDelay = `${index * 0.1}s`;
+    // Infinite effect: Wrap around scrolling
+    if (scrollContainer.scrollLeft >= scrollContainer.scrollWidth - window.innerWidth) {
+      scrollLeft = 0;
+    } else if (scrollContainer.scrollLeft <= 0) {
+      scrollLeft = scrollContainer.scrollWidth - window.innerWidth;
+    }
   });
 });
