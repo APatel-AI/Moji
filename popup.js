@@ -13,12 +13,11 @@ uploadInput.addEventListener("change", (event) => {
         heic2any({
           blob: e.target.result,
           toType: "image/jpeg",
-          quality: 0.9, 
+          quality: 0.9, // Adjust quality if needed
         })
           .then((convertedBlob) => {
             const convertedReader = new FileReader();
             convertedReader.onload = function (event) {
-              console.log("Converted HEIC to JPEG:", event.target.result);
               images.push(event.target.result);
               chrome.storage.local.set({ images });
             };
