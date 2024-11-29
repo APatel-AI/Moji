@@ -1,20 +1,19 @@
 {
-    "manifest_version": 3,
-    "name": "Moji",
-    "version": "1.0",
-    "description": "Select or load photos and view them in a large animated grid.",
-    "permissions": ["storage"],
-    "host_permissions": ["<all_urls>"],
-    "action": {
-      "default_popup": "popup.html",
-      "default_icon": {
-        "16": "styles/icon.png",
-        "48": "styles/icon.png",
-        "128": "styles/icon.png"
-      }
-    },
-    "background": {
-      "service_worker": "background.js"
+  "manifest_version": 3,
+  "name": "Moji",
+  "version": "1.0",
+  "description": "Select or load photos and view them in a large animated grid.",
+  "permissions": ["storage"],
+  "host_permissions": ["<all_urls>"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "styles/icon.png",
+      "48": "styles/icon.png",
+      "128": "styles/icon.png"
     }
+  },
+  "background": {
+    "service_worker": "background.js"
   }
-  
+}

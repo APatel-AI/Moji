@@ -1,23 +1,20 @@
-document.getElementById("viewPhotos").addEventListener("click", () => {
-    const input = document.getElementById("photoInput");
-    const files = input.files;
-  
-    if (!files || files.length === 0) {
-      alert("Please select photos first!");
-      return;
-    }
-  
-    // Create an array of object URLs for the selected files
-    const photoUrls = [];
-    for (const file of files) {
-      photoUrls.push(URL.createObjectURL(file));
-    }
-  
-    // Save the photo URLs to Chrome storage
-    chrome.storage.local.set({ photos: photoUrls }, () => {
-      console.log("Photos saved to storage!");
-      // Open the grid view in a new tab
-      chrome.runtime.sendMessage({ action: "openGridView" });
-    });
-  });
-  
+const uploadInput = document.getElementById("upload");
+const viewGridButton = document.getElementById("viewGrid");
+
+uploadInput.addEventListener("change", (event) => {
+  const files = event.target.files;
+  const images = [];
+
+  for (let i = 0; i < files.length; i++) {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      images.push(e.target.result);
+      chrome.storage.local.set({ images });
+    };
+    reader.readAsDataURL(files[i]);
+  }
+});
+
+viewGridButton.addEventListener("click", () => {
+  chrome.runtime.sendMessage({ action: "openGridView" });
+});
