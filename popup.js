@@ -1,20 +1,24 @@
-const uploadInput = document.getElementById("upload");
-const viewGridButton = document.getElementById("viewGrid");
-
-uploadInput.addEventListener("change", (event) => {
-  const files = event.target.files;
+document.getElementById("saveImages").addEventListener("click", async () => {
+  const files = document.getElementById("imageInput").files;
   const images = [];
 
-  for (let i = 0; i < files.length; i++) {
-    const reader = new FileReader();
-    reader.onload = function (e) {
-      images.push(e.target.result);
-      chrome.storage.local.set({ images });
-    };
-    reader.readAsDataURL(files[i]);
+  for (const file of files) {
+    if (file.type === "image/heic") {
+      const jpegImage = await convertHEICtoJPEG(file); // Use HEIC to JPEG conversion
+      images.push(jpegImage);
+    } else {
+      images.push(URL.createObjectURL(file));
+    }
   }
+
+  // Save the image URLs to Chrome storage
+  chrome.storage.local.set({ joyfulImages: images }, () => {
+    document.getElementById("message").innerText = "Images saved!";
+  });
 });
 
-viewGridButton.addEventListener("click", () => {
-  chrome.runtime.sendMessage({ action: "openGridView" });
-});
+async function convertHEICtoJPEG(file) {
+  const heic2any = await import('./lib/heic-to-jpeg.js');
+  const blob = await heic2any.convert({ blob: file });
+  return URL.createObjectURL(blob);
+}
