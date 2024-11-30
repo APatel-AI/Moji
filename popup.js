@@ -1,24 +1,35 @@
-document.getElementById("saveImages").addEventListener("click", async () => {
-  const files = document.getElementById("imageInput").files;
-  const images = [];
-
-  for (const file of files) {
-    if (file.type === "image/heic") {
-      const jpegImage = await convertHEICtoJPEG(file); // Use HEIC to JPEG conversion
-      images.push(jpegImage);
-    } else {
-      images.push(URL.createObjectURL(file));
-    }
-  }
-
-  // Save the image URLs to Chrome storage
-  chrome.storage.local.set({ joyfulImages: images }, () => {
-    document.getElementById("message").innerText = "Images saved!";
+document.getElementById('file-input').addEventListener('change', function(event) {
+    const files = event.target.files;
+    const imageGrid = document.getElementById('image-grid');
+    imageGrid.innerHTML = ''; // Clear existing images
+  
+    Array.from(files).forEach((file) => {
+      const fileType = file.type;
+      const fileExtension = file.name.split('.').pop().toLowerCase();
+  
+      if (fileType.startsWith('image/') || fileExtension === 'heic') {
+        if (fileType === 'image/heic' || fileExtension === 'heic') {
+          // Handle HEIC files
+          heic2any({
+            blob: file,
+            toType: "image/jpeg",
+            quality: 0.8
+          }).then(function(convertedBlob) {
+            const img = document.createElement('img');
+            img.src = URL.createObjectURL(convertedBlob);
+            imageGrid.appendChild(img);
+          }).catch(function(error) {
+            console.error(error);
+          });
+        } else {
+          // Handle other image files
+          const img = document.createElement('img');
+          img.src = URL.createObjectURL(file);
+          imageGrid.appendChild(img);
+        }
+      } else {
+        console.warn('Unsupported file type:', fileType);
+      }
+    });
   });
-});
-
-async function convertHEICtoJPEG(file) {
-  const heic2any = await import('./lib/heic-to-jpeg.js');
-  const blob = await heic2any.convert({ blob: file });
-  return URL.createObjectURL(blob);
-}
+  

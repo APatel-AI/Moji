@@ -1,16 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Joyful Moments</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>Image Grid Viewer</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 10px;
+      font-family: Arial, sans-serif;
+    }
+    #file-input {
+      margin-bottom: 10px;
+      display: block;
+    }
+    #image-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+      grid-gap: 10px;
+    }
+    #image-grid img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+  </style>
 </head>
 <body>
-  <h1>Select Your Joyful Moments</h1>
-  <input type="file" id="imageInput" accept="image/*" multiple>
-  <button id="saveImages">Save Images</button>
-  <p id="message"></p>
+  <input type="file" id="file-input" accept="image/*,.heic" multiple>
+  <div id="image-grid"></div>
+
+  <script src="heic2any.min.js"></script>
   <script src="popup.js"></script>
 </body>
 </html>
