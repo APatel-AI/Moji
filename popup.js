@@ -1,6 +1,7 @@
+// Handle file upload
 function handleFileUpload(event) {
     const files = event.target.files;
-    const heic2any = window.heic2any;
+    const heic2any = window.heic2any; // Ensure this library is included in your project
     const imageUrls = [];
   
     Array.from(files).forEach(file => {
@@ -22,5 +23,18 @@ function handleFileUpload(event) {
         }
       });
     }
+  }
+  
+  // Add event listener for file upload
+  document.getElementById('file-upload').addEventListener('change', handleFileUpload);
+  
+  // Handle "View Grid" button click
+  document.getElementById('view-grid').addEventListener('click', viewGrid);
+  
+  function viewGrid() {
+    // Open a new tab to display the image grid
+    chrome.tabs.create({ url: chrome.runtime.getURL('grid.html') }, (tab) => {
+      console.log('Grid view opened:', tab);
+    });
   }
   
