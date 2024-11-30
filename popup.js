@@ -1,25 +1,26 @@
-document.getElementById("saveImages").addEventListener("click", async () => {
-    const files = document.getElementById("imageInput").files;
-    const images = [];
+function handleFileUpload(event) {
+    const files = event.target.files;
+    const heic2any = window.heic2any;
+    const imageUrls = [];
   
-    for (const file of files) {
-      if (file.type === "image/heic") {
-        const jpegImage = await convertHEICtoJPEG(file); // Use HEIC to JPEG conversion
-        images.push(jpegImage);
+    Array.from(files).forEach(file => {
+      if (file.type === 'image/heic') {
+        heic2any({ blob: file }).then(converted => {
+          imageUrls.push(URL.createObjectURL(converted));
+          sendImagesToBackground(imageUrls);
+        });
       } else {
-        images.push(URL.createObjectURL(file));
+        imageUrls.push(URL.createObjectURL(file));
       }
-    }
-  
-    // Save the image URLs to Chrome storage
-    chrome.storage.local.set({ joyfulImages: images }, () => {
-      document.getElementById("message").innerText = "Images saved!";
     });
-  });
   
-  async function convertHEICtoJPEG(file) {
-    const heic2any = await import('./lib/heic-to-jpeg.js');
-    const blob = await heic2any.convert({ blob: file });
-    return URL.createObjectURL(blob);
+    // Send images to background storage
+    function sendImagesToBackground(images) {
+      chrome.runtime.sendMessage({ type: 'addImages', images }, (response) => {
+        if (response.success) {
+          console.log('Images stored successfully:', response.images);
+        }
+      });
+    }
   }
   

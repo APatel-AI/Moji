@@ -3,14 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Joyful Moments</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>Image Grid Viewer</title>
+  <link rel="stylesheet" href="styles/popup.css">
 </head>
 <body>
-  <h1>Select Your Joyful Moments</h1>
-  <input type="file" id="imageInput" accept="image/*" multiple>
-  <button id="saveImages">Save Images</button>
-  <p id="message"></p>
+  <h1>Image Grid Viewer</h1>
+  <div id="upload-section">
+    <label for="file-upload">Select Images:</label>
+    <input type="file" id="file-upload" multiple accept=".heic, .jpg, .jpeg, .png">
+    <button id="view-grid">View Grid</button>
+  </div>
   <script src="popup.js"></script>
 </body>
 </html>
