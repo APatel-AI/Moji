@@ -1,7 +1,8 @@
 chrome.storage.local.get('images', (data) => {
     const imageGrid = document.getElementById('image-grid');
+    imageGrid.innerHTML = ''; // Clear any existing content
+  
     if (data.images && data.images.length > 0) {
-      console.log('Loaded images:', data.images);
       data.images.forEach((imageUrl) => {
         const img = document.createElement('img');
         img.src = imageUrl;
