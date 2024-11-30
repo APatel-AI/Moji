@@ -8,9 +8,11 @@
       padding: 10px;
       font-family: Arial, sans-serif;
     }
-    #file-input {
+    #view-grid-button {
       margin-bottom: 10px;
-      display: block;
+      padding: 10px 15px;
+      font-size: 16px;
+      cursor: pointer;
     }
     #image-grid {
       display: grid;
@@ -27,10 +29,9 @@
   </style>
 </head>
 <body>
-  <input type="file" id="file-input" accept="image/*,.heic" multiple>
+  <button id="view-grid-button">View Grid</button>
   <div id="image-grid"></div>
 
-  <script src="heic2any.min.js"></script>
   <script src="popup.js"></script>
 </body>
 </html>
