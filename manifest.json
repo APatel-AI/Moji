@@ -7,5 +7,11 @@
     "default_popup": "popup.html",
     "default_title": "Image Grid Viewer"
   },
-  "permissions": []
+  "permissions": [],
+  "web_accessible_resources": [
+    {
+      "resources": ["*"],
+      "matches": ["<all_urls>"]
+    }
+  ]
 }
