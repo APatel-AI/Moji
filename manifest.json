@@ -1,17 +1,23 @@
 {
   "manifest_version": 3,
   "name": "Image Grid Viewer",
-  "version": "1.1",
-  "description": "Select images from your laptop and view them in a beautiful grid.",
+  "version": "1.0",
+  "description": "Upload images and view them in a grid layout.",
+  "permissions": ["storage"],
   "action": {
     "default_popup": "popup.html",
-    "default_title": "Image Grid Viewer"
-  },
-  "permissions": [],
-  "web_accessible_resources": [
-    {
-      "resources": ["heic2any.min.js"],
-      "matches": ["<all_urls>"]
+    "default_icon": {
+      "16": "assets/icons/icon16.png",
+      "48": "assets/icons/icon48.png",
+      "128": "assets/icons/icon128.png"
     }
-  ]
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "icons": {
+    "16": "assets/icons/icon16.png",
+    "48": "assets/icons/icon48.png",
+    "128": "assets/icons/icon128.png"
+  }
 }
